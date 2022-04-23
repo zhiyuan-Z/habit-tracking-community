@@ -89,15 +89,9 @@ const Posts = (props: any) => {
 
 export async function getStaticPaths() {
   const communityCollection = collection(firestore, 'communities');
-  const communitiesQuery = query(communityCollection, limit(10));
+  const communitiesQuery = query(communityCollection);
   const querySnapshot = await getDocs(communitiesQuery);
   const paths = querySnapshot.docs.map(community => ({ params: { communityID: community.id } }));
-  const userCollection = collection(firestore, 'users');
-  const usersQuery = query(userCollection, limit(10));
-  const userQuerySnapshot = await getDocs(usersQuery);
-  userQuerySnapshot.docs.map(user => {
-    
-  });
   return {
     paths,
     fallback: true // false or 'blocking'

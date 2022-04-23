@@ -40,7 +40,7 @@ export default function Sidebar(props: SidebarProps) {
           </Typography>
           <Stack>
             {
-              userCommunities.map((community: DocumentSnapshot<DocumentData>, i) => {
+              !!userCommunities && userCommunities.map((community: DocumentSnapshot<DocumentData>, i) => {
                 return (
                   <Grid item key={i} xs={12}>
                     <CommunityCard community={community} expand={false} userID={userID} />

@@ -36,3 +36,7 @@ yarn-error.log*
 
 # history
 .history
+
+.firebase
+
+public

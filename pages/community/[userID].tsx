@@ -49,7 +49,7 @@ const sidebar = {
 
 export async function getStaticPaths() {
   const communityCollection = collection(firestore, 'users');
-  const communitiesQuery = query(communityCollection, limit(100));
+  const communitiesQuery = query(communityCollection);
   const querySnapshot = await getDocs(communitiesQuery);
   let paths = querySnapshot.docs.map(user => ({ params: { userID: user.id } }));
   return {
@@ -62,7 +62,7 @@ export const getStaticProps = async ({ params }: { params: any }) => {
   const communityCollection = collection(firestore, 'communities');
 
   const getCommunities = async () => {
-    const communitiesQuery = query(communityCollection, limit(10));
+    const communitiesQuery = query(communityCollection);
     const querySnapshot = await getDocs(communitiesQuery);
     // const result: QueryDocumentSnapshot<DocumentData>[] = [];
     const result: any[] = [];
@@ -79,16 +79,16 @@ export const getStaticProps = async ({ params }: { params: any }) => {
     const querySnapshot = await getDocs(userCommunitiesQuery);
     const result = await Promise.all(
       querySnapshot.docs
-        .filter(document => document.exists)
+        .filter(document => document.exists())
         .map(async document => await getDoc(doc(communityCollection, `${document.data().communityID}`)))
     );
-    return result.filter(doc => doc.exists).map(doc => ({ id: doc.id, ...doc.data() }));
+    return result.filter(doc => doc.exists()).map(doc => ({ id: doc.id, ...doc.data() }));
   }
   
   const communities = await getCommunities();
   const userCommunities = await getUserCommunities(params.userID);
   const userID = params.userID;
-  console.log(userID)
+  // console.log(userID)
 
   return {
     props: { communities, userCommunities, userID },
@@ -97,7 +97,7 @@ export const getStaticProps = async ({ params }: { params: any }) => {
 }
 
 export default function Community(props: any) {
-  console.log(props)
+  // console.log(props)
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -114,8 +114,7 @@ export default function Community(props: any) {
               {/* <Main title="From the firehose" posts={posts} /> */}
               <Grid container item spacing={2} xs={12} md={8} sx={{ '& .markdown': { py: 3, }, }} >
                 {
-                  // communities.map((community: QueryDocumentSnapshot<DocumentData>) => {
-                    props.communities.map((community: any, i: any) => {
+                  !!props.communities && props.communities.map((community: any, i: any) => {
                     return (
                       <Grid item key={i} xs={12}>
                         <CommunityCard community={community} expand={true} userID={props.userID} />

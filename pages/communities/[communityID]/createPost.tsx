@@ -15,7 +15,7 @@ import theme from '../../../src/theme';
 
 export async function getStaticPaths() {
   const communityCollection = collection(firestore, 'communities');
-  const communitiesQuery = query(communityCollection, limit(10));
+  const communitiesQuery = query(communityCollection);
   const querySnapshot = await getDocs(communitiesQuery);
   const paths = querySnapshot.docs.map(community => ({ params: { communityID: community.id } }));
   return {

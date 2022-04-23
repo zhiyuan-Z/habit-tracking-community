@@ -19,7 +19,7 @@ export default function Habits(props: any) {
   const habitsCollection = collection(firestore, 'habits');
 
   const {currentUser, protectedRoute} = useAuth();
-  console.log(useAuth())
+  // console.log(useAuth())
   const router = useRouter();
   const [refresh, setRefresh] = useState<boolean>(false);
 
