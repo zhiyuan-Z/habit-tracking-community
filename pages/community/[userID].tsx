@@ -51,13 +51,7 @@ export async function getStaticPaths() {
   const communityCollection = collection(firestore, 'users');
   const communitiesQuery = query(communityCollection, limit(100));
   const querySnapshot = await getDocs(communitiesQuery);
-  // console.log(querySnapshot.docs)
   let paths = querySnapshot.docs.map(user => ({ params: { userID: user.id } }));
-//   const paths = Object.keys(querySnapshot.docs).map((eventId) => ({
-//     params: { userID: eventId },
-// }))
-  console.log(paths)
-  // paths = JSON.stringify(paths)
   return {
     paths,
     fallback: true // false or 'blocking'
